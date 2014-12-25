@@ -142,6 +142,25 @@ pre {
   .icon > svg path {
     fill: #828282; }
 
+.table {
+  border-collapse: collapse; }
+  .table.arguments, .table.methods {
+    margin-bottom: 20px; }
+  .table tr td {
+    font-size: 14px;
+    border-bottom: 1px solid #999;
+    padding: 5px 25px 5px 0; }
+    .table tr td:last-child {
+      padding-right: 0px; }
+    .table tr td.param-name {
+      font-weight: bolder;
+      white-space: nowrap; }
+    .table tr td.args {
+      white-space: nowrap;
+      font-style: italic; }
+  .table tr:last-child td {
+    border-bottom: none; }
+
 #github {
   position: absolute;
   right: 0;

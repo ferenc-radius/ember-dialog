@@ -81,19 +81,15 @@
   </header>
 
   <article class="post-content">
-    <p>Библиотека служит для создания модальных и диалоговых окон. Имеет большой спектр использования:</p>
+    <p>Ember-dialog used to create a modal dialog windows. Has a wide range of use: confirms, alerts, popup forms, notices, etc.</p>
 
-<ul>
-  <li>Окна предупреждений</li>
-  <li>Окна подтверждений</li>
-  <li>Всплывающие формы</li>
-  <li>Подсказки</li>
-  <li>и т.п.</li>
-</ul>
+<h2 id="section">Особенности</h2>
 
-<h2 id="section">Особенности библиотеки:</h2>
+<p>Cпособ создания модальных окон, <a href="http://emberjs.com/guides/cookbook/user_interface_and_interaction/using_modal_dialogs/">предложеный в cookbook</a> не подразумевает создание нескольких модальных окон одновременно, что порой необходимо. Например представьте себе форму в модальном окне, пользователь введя в неё какие-то данные, по ошибке закрывает её. В такой момент было бы не плохо показать ему еще одно модальное окно поверх первого с вопросом “Вы уверены?”, не так ли?</p>
 
-<p>На текущий момент существующие аналоги имеют ряд недостатков, такие как: <strong>УКАЗАТЬ</strong>. Эта библиотека максимально упрощает работу с модальными окнами. Для примера, чтобы показать пользователю сообщение об ошибке достаточно одной строки:</p>
+<p>Эта библиотека призвана максимально упростить работу с модальными окнами.</p>
+
+<p>Для примера вот так выгладит вывод модальника с сообщением пользователю:</p>
 
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;dialogManager&#39;</span><span class="p">).</span><span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Сообщение находится тут&quot;</span><span class="p">);</span></code></pre></div>
 
