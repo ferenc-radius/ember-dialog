@@ -2,65 +2,39 @@ import maxZIndex from "ember-dialog/utils/highest-zindex";
 
 export default Ember.Component.extend({
 
-    /**
-      @property layoutName
-      @type {String}
-    */
     layoutName: 'components/dialog',
-
-    /**
-      Visibilities state of the dialog.
-
-      @property isVisible
-      @type Boolean
-      @default false
-    */
     isVisible: false,
-
     fixedZIndex: false,
-
-    /**
-      The dialog is active now.
-
-      @property isActive
-      @type Boolean
-      @default false
-    */
-    isActive: function() {
+    isActive: function () {
         return this.get('name') === this.get('dialogManager.active');
     }.property('name', 'dialogManager.active'),
 
     /**
-      Make dialog's z-index property biggest.
-
-      @method _visibleDidChange
-      @private
-    */
-    _visibleDidChange: function() {
+     * Make dialog's z-index property biggest.
+     */
+    _visibleDidChange: function () {
 
         // Element not visible - do not recalculate z-index for it
         if (!this.get('isVisible')) {
-          return;
+            return;
         }
 
         // Element inserting now - we should asynchronize enlargement of
         // z-index css property. This method will not be executed while current
         // method will not be finished.
-        Ember.run.later(this, function() {
-
-            var dialog, zindex;
+        Ember.run.later(this, function () {
 
             // If z-index should be fixed - do not change it
             if (!this.get("fixedZIndex")) {
                 // Biggest z-index
-                var zindex = maxZIndex(),
+                var zIndex = maxZIndex(),
 
-                    // Component element (wrapper of dialog-element)
-                    // Dialog element
-                    dialog = this.$('.dialog-dialog');
+                // Component element (wrapper of dialog-element)
+                // Dialog element
+                dialog = this.$('.dialog-dialog');
 
                 // Set z-index biggest then biggenest
-                dialog.css({'z-index': zindex + 1});
+                dialog.css({'z-index': zIndex + 1});
             }
 
             this.focus();
@@ -70,42 +44,34 @@ export default Ember.Component.extend({
     }.observes('isVisible'),
 
     /**
-      Show dialog window.
-
-      @method show
-      @chainable
-    */
-    show: function() {
+     * Show dialog window.
+     * @chainable
+     */
+    show: function () {
         return this.set('isVisible', true);
     },
 
     /**
-      Hide dialog window.
-
-      @method hide
-      @chainable
-    */
-    hide: function() {
+     * Hide dialog window.
+     * @chainable
+     */
+    hide: function () {
         this.set('isVisible', false);
     },
 
     /**
-      Hide this dialog and mark as closed.
-
-      @method close
-      @return {Ember.RSVP.Promise}
-    */
-    close: function() {
+     * Hide this dialog and mark as closed.
+     * @return {Ember.RSVP.Promise}
+     */
+    close: function () {
         return this.get('dialogManager').close(this.get('name'));
     },
 
     /**
-      Reject promise and close dialog.
-
-      @method decline
-      @chainable
-    */
-    decline: function() {
+     * Reject promise and close dialog.
+     * @chainable
+     */
+    decline: function () {
         Ember.ENV.LOG_DIALOG && Ember.Logger.log('✘ %cDecline action%c: ' + this.get('name'), 'font-weight: 900; color: #900;', null);
         if (this.has('rejected')) {
             var callback = this.get('rejected');
@@ -116,12 +82,12 @@ export default Ember.Component.extend({
     },
 
     /**
-      Resolve promise and close dialog.
+     Resolve promise and close dialog.
 
-      @method decline
-      @chainable
-    */
-    accept: function() {
+     @method decline
+     @chainable
+     */
+    accept: function () {
         Ember.ENV.LOG_DIALOG && Ember.Logger.log('✓ %cConfirm action%c ' + this.get('name'), 'font-weight: 900; color: #070;', null);
         if (this.has('resolved')) {
             var callback = this.get('resolved');
@@ -132,11 +98,9 @@ export default Ember.Component.extend({
     },
 
     /**
-      Handler for a key-down events. Close dialog on pressing escape.
-
-      @method keyDown
-    */
-    keyDown: function(e) {
+     * Handler for a key-down events. Close dialog on pressing escape.
+     */
+    keyDown: function (e) {
         var viewsController;
         if (this.get("isActive")) {
             viewsController = this.get('childViews')[0].get('controller');
@@ -152,56 +116,36 @@ export default Ember.Component.extend({
     },
 
     /**
-      Handler for a click events. Close dialog on clicking on substrate.
-
-      @method keyDown
-    */
-    click: function(e) {
+     * Handler for a click events. Close dialog on clicking on substrate.
+     */
+    click: function (e) {
         if (Ember.$(e.target).hasClass('substrate')) {
             this.close();
         }
     },
 
     /**
-      Focusing on a dialog-window.
+     * Focusing on a dialog-window.
+     */
+    focus: function () {
+        var firstInput = this.$().find('input:visible:first, button:visible:not(.close):first').first();
 
-      @method focus
-    */
-    focus: function() {
-          var firstInput = this.$().find('input:visible:first, button:visible:not(.close):first').first();
-
-          // Trying to search input element or button to focus it
-          if (firstInput.size()) {
-              firstInput.focus();
-          } else {
-              this.$('.dialog-content').focus();
-          }
+        // Trying to search input element or button to focus it
+        if (firstInput.size()) {
+            firstInput.focus();
+        } else {
+            this.$('.dialog-content').focus();
+        }
     },
 
-    /**
-      Contains event handlers
-      @attribute {Function} decline - Executed on click `close` button. Close promise as rejected.
-      @attribute {Function} accept  - Executed on click `done` button. Close promise as resolved.
-      @type Object
-    */
     actions: {
 
-        /**
-          Occures when button type "close" clicked.
-          @method decline
-        */
-        decline: function(dialog) {
-          this.decline();
+        decline: function (dialog) {
+            this.decline();
         },
 
-        /**
-          Occures when button type "done" clicked.
-          @method decline
-        */
-        accept: function(dialog) {
-          this.accept();
+        accept: function (dialog) {
+            this.accept();
         }
-
     }
-
 });
